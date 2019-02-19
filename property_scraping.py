@@ -1,7 +1,3 @@
-
-# website: https://www.rightmove.co.uk/property-for-sale/Glasgow
-
-
 import requests
 import csv
 from bs4 import BeautifulSoup

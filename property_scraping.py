@@ -8,16 +8,16 @@ from bs4 import BeautifulSoup
 
 
 class PropertyWebsiteScraper:
-    def __init__(self, url_start, url_continuing, url_min_bed, url_ending, listing_Scraper, price_Scraper, bedrooms_Scraper, address_Scraper, link_Scraper):
+    def __init__(self, url_start, url_continuing, url_min_bed, url_ending, listing_scraper, price_scraper, bedrooms_scraper, address_scraper, link_scraper):
         self.url_start = url_start
         self.url_continuing = url_continuing
         self.url_min_bed = url_min_bed
         self.url_ending = url_ending
-        self.listing_Scraper = listing_Scraper
-        self.price_Scraper = price_Scraper
-        self.bedrooms_Scraper = bedrooms_Scraper
-        self.address_Scraper = address_Scraper
-        self.link_Scraper = link_Scraper
+        self.listing_scraper = listing_scraper
+        self.price_scraper = price_scraper
+        self.bedrooms_scraper = bedrooms_scraper
+        self.address_scraper = address_scraper
+        self.link_scraper = link_scraper
 
     def return_url(self, min_bedrooms, page_number):
         url = self.url_start + self.url_continuing + self.url_min_bed + str(min_bedrooms)\
@@ -38,7 +38,7 @@ class PropertyWebsiteScraper:
         while count < num_to_check:
             url = self.return_url(min_bedrooms, page)
             soup = self.return_soup(url)
-            for listing in soup.find_all(self.listing_Scraper[0], class_=self.listing_Scraper[1]):
+            for listing in soup.find_all(self.listing_scraper[0], class_=self.listing_scraper[1]):
                 price = self.return_price(listing)
                 print(price)
                 bedrooms = self.return_bedrooms(listing)
@@ -57,7 +57,7 @@ class PropertyWebsiteScraper:
         return listings
 
     def find_price(self, listing):
-        price = listing.find(self.price_Scraper[0], class_=self.price_Scraper[1])
+        price = listing.find(self.price_scraper[0], class_=self.price_scraper[1])
         return price.text
 
     def return_price(self, listing):
@@ -71,7 +71,7 @@ class PropertyWebsiteScraper:
             return False
 
     def find_bedrooms(self, listing):
-        bedrooms = listing.find(self.bedrooms_Scraper[0], class_=self.bedrooms_Scraper[1])
+        bedrooms = listing.find(self.bedrooms_scraper[0], class_=self.bedrooms_scraper[1])
         return bedrooms.text
 
     def return_bedrooms(self, listing):
@@ -83,7 +83,7 @@ class PropertyWebsiteScraper:
             return False
 
     def find_address(self, listing):
-        address = listing.find(self.address_Scraper[0], class_=self.address_Scraper[1])
+        address = listing.find(self.address_scraper[0], class_=self.address_scraper[1])
         return address.text
 
     def return_address(self, listing):
@@ -91,7 +91,7 @@ class PropertyWebsiteScraper:
         return " ".join(address_string.split())
 
     def find_link(self, listing):
-        link = listing.find(self.link_Scraper[0], class_=self.link_Scraper[1])
+        link = listing.find(self.link_scraper[0], class_=self.link_scraper[1])
         return link
 
     def return_link(self, listing):
@@ -105,13 +105,13 @@ class RightMoveScraper(PropertyWebsiteScraper):
                  url_continuing="/property-for-sale/find.html?locationIdentifier=REGION%5E550",
                  url_min_bed="&minBedrooms=",
                  url_ending="&sortType=6",
-                 listing_Scraper=("div", "propertyCard-wrapper"),
-                 price_Scraper=("div", "propertyCard-priceValue"),
-                 bedrooms_Scraper=("h2", "propertyCard-title"),
-                 address_Scraper=("address", "propertyCard-address"),
-                 link_Scraper=("a", "propertyCard-link")):
+                 listing_scraper=("div", "propertyCard-wrapper"),
+                 price_scraper=("div", "propertyCard-priceValue"),
+                 bedrooms_scraper=("h2", "propertyCard-title"),
+                 address_scraper=("address", "propertyCard-address"),
+                 link_scraper=("a", "propertyCard-link")):
 
-        super().__init__(url_start, url_continuing, url_min_bed, url_ending, listing_Scraper, price_Scraper, bedrooms_Scraper, address_Scraper, link_Scraper)
+        super().__init__(url_start, url_continuing, url_min_bed, url_ending, listing_scraper, price_scraper, bedrooms_scraper, address_scraper, link_scraper)
 
     def next_page(self, page_number):
         return "&index=" + str(page_number*24)
@@ -129,13 +129,13 @@ class ZooplaScraper(PropertyWebsiteScraper):
                  url_continuing="/for-sale/property/glasgow/?",
                  url_min_bed="beds_min=",
                  url_ending="&identifier=glasgow&q=Glasgow&search_source=refine&radius=0&pn=",
-                 listing_Scraper=("li", "srp"),
-                 price_Scraper=("a", "listing-results-price"),
-                 bedrooms_Scraper=("h2", "listing-results-attr"),
-                 address_Scraper=("a", "listing-results-address"),
-                 link_Scraper=("a", "listing-results-address")):
+                 listing_scraper=("li", "srp"),
+                 price_scraper=("a", "listing-results-price"),
+                 bedrooms_scraper=("h2", "listing-results-attr"),
+                 address_scraper=("a", "listing-results-address"),
+                 link_scraper=("a", "listing-results-address")):
 
-        super().__init__(url_start, url_continuing, url_min_bed, url_ending, listing_Scraper, price_Scraper, bedrooms_Scraper, address_Scraper, link_Scraper)
+        super().__init__(url_start, url_continuing, url_min_bed, url_ending, listing_scraper, price_scraper, bedrooms_scraper, address_scraper, link_scraper)
 
 
 class S1homesScraper(PropertyWebsiteScraper):
@@ -144,13 +144,13 @@ class S1homesScraper(PropertyWebsiteScraper):
                  url_continuing="/property-for-sale/forsale_search_results.cgi?refine=0&veryLocal=7",
                  url_min_bed="&bedrooms=",
                  url_ending="&&location=7&newhomes=yes&locationText=Glasgow%2C%20Scotland&sort=pr&page=",
-                 listing_Scraper=("div", "listing"),
-                 price_Scraper=("h5", "hidden-xs"),
-                 bedrooms_Scraper=("h5", "hidden-xs"),
-                 address_Scraper=("a", "prop-link"),
-                 link_Scraper=("a", "prop-link")):
+                 listing_scraper=("div", "listing"),
+                 price_scraper=("h5", "hidden-xs"),
+                 bedrooms_scraper=("h5", "hidden-xs"),
+                 address_scraper=("a", "prop-link"),
+                 link_scraper=("a", "prop-link")):
 
-        super().__init__(url_start, url_continuing, url_min_bed, url_ending, listing_Scraper, price_Scraper, bedrooms_Scraper, address_Scraper, link_Scraper)
+        super().__init__(url_start, url_continuing, url_min_bed, url_ending, listing_scraper, price_scraper, bedrooms_scraper, address_scraper, link_scraper)
 
     def return_price(self, listing):
         price_string = self.find_price(listing)
@@ -163,7 +163,7 @@ class S1homesScraper(PropertyWebsiteScraper):
             return False
 
     def find_bedrooms(self, listing):
-        bedrooms = listing.find_all(self.bedrooms_Scraper[0], class_=self.bedrooms_Scraper[1])
+        bedrooms = listing.find_all(self.bedrooms_scraper[0], class_=self.bedrooms_scraper[1])
         return bedrooms[1].text
 
     def return_bedrooms(self, listing):
@@ -178,7 +178,7 @@ class S1homesScraper(PropertyWebsiteScraper):
 if __name__=="__main__":
     min_bedrooms = 3
     price_per_bedroom = 1000000
-    num_to_check = 100
+    num_to_check = 1
 
     listings = []
     RightMove = RightMoveScraper()

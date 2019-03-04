@@ -1,3 +1,22 @@
+"""Python program for scraping information about properties from websites
+
+Python program for scraping information about properties from Rightmove,
+S1homes and Zoopla
+
+Section breaks are created by resuming unindented text. Section breaks
+are also implicitly created anytime a new section starts.
+
+Attributes:
+    MIN_BEDROOMS (int): minimum bedrooms the properties should have
+    PRICE_PER_BEDROOM  (int): maximum allowed price per bedroom
+    NUM_TO_CHECK (int): number of listings to be checked from each website
+
+Todo:
+    *  add that first time the csv file is created header is created
+       but next time just more data is added
+
+"""
+
 import csv
 import requests
 from bs4 import BeautifulSoup

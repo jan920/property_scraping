@@ -305,7 +305,7 @@ def check_valid_listing(bedrooms, price, price_per_bedroom, min_bedrooms):
 
 if __name__ == "__main__":
     MIN_BEDROOMS = 5
-    PRICE_PER_BEDROOM = 500000
+    PRICE_PER_BEDROOM = 50000
     NUM_TO_CHECK = 1
 
     LISTINGS = []
@@ -322,7 +322,7 @@ if __name__ == "__main__":
                                                         price_per_bedroom=PRICE_PER_BEDROOM,
                                                         num_to_check=NUM_TO_CHECK)
 
-    with open('properties_scrape.csv', 'w+') as csv_file:
+    with open('properties_scrape.csv', 'a+') as csv_file:
         csv_file.seek(0)
         CSV_READER = csv.reader(csv_file)
         LINKS = [line[3] for line in CSV_READER]

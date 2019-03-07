@@ -20,7 +20,9 @@ Todo:
 import csv
 import requests
 from bs4 import BeautifulSoup
+from logging import getLogger
 
+logger = getLogger("property_scraping")
 
 class PropertyWebsiteScraper:
     """Website scrapper class containing methods which are used for
@@ -73,7 +75,9 @@ class PropertyWebsiteScraper:
         count = 0
         page = 0
         listings = []
+        logger.debug("searching started")
         while count < num_to_check:
+            logger.debug("searching page %s", page)
             url = self.return_url(min_bedrooms, page)
             soup = return_soup(url)
             for listing in soup.find_all(self.listing_scraper[0], class_=self.listing_scraper[1]):
@@ -85,6 +89,7 @@ class PropertyWebsiteScraper:
                     listings.append([price, bedrooms, address, link])
                 count += 1
             page += 1
+        logger.debug("returning listings")
         return listings
 
     def find_price(self, listing):
@@ -347,6 +352,6 @@ if __name__ == "__main__":
         LINKS = [line[3] for line in CSV_READER]
         CSV_WRITER = csv.writer(csv_file)
         for property_listing in LISTINGS:
+            logger.info(property_listing)
             if property_listing[3] not in LINKS:
-                CSV_WRITER.writerow([property_listing[0], property_listing[1],
-                                     property_listing[2], property_listing[3]])
+                CSV_WRITER.writerow(property_listing)

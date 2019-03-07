@@ -18,11 +18,12 @@ Todo:
 """
 
 import csv
+from logging import getLogger
 import requests
 from bs4 import BeautifulSoup
-from logging import getLogger
 
 logger = getLogger("property_scraping")
+
 
 class PropertyWebsiteScraper:
     """Website scrapper class containing methods which are used for
@@ -184,7 +185,8 @@ class RightMoveScraper(PropertyWebsiteScraper):
         super().__init__(url_host_name, url_continuing, url_min_bed, url_ending, listing_scraper,
                          price_scraper, bedrooms_scraper, address_scraper, link_scraper)
 
-    def next_page(self, page_number):
+    @staticmethod
+    def next_page(page_number):
         """Return next page url parameter"""
         return "&index=" + str(page_number * 24)
 
@@ -330,7 +332,7 @@ def check_valid_listing(bedrooms, price, price_per_bedroom, min_bedrooms):
 if __name__ == "__main__":
     MIN_BEDROOMS = 5
     PRICE_PER_BEDROOM = 50000
-    NUM_TO_CHECK = 1
+    NUM_TO_CHECK = 10
 
     LISTINGS = []
     RIGHT_MOVE_SCRAPER = RightMoveScraper()
@@ -346,7 +348,7 @@ if __name__ == "__main__":
                                                         price_per_bedroom=PRICE_PER_BEDROOM,
                                                         num_to_check=NUM_TO_CHECK)
 
-    with open('properties_scrape.csv', 'a+') as csv_file:
+    with open('properties_scrape.csv', 'w+') as csv_file:
         csv_file.seek(0)
         CSV_READER = csv.reader(csv_file)
         LINKS = [line[3] for line in CSV_READER]

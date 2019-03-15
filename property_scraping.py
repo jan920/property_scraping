@@ -3,9 +3,6 @@
 Python program for scraping information about properties from Rightmove,
 S1homes and Zoopla
 
-Section breaks are created by resuming unindented text. Section breaks
-are also implicitly created anytime a new section starts.
-
 Attributes:
     MIN_BEDROOMS (int): minimum bedrooms the properties should have
     PRICE_PER_BEDROOM  (int): maximum allowed price per bedroom
